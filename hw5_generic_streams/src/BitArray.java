@@ -11,12 +11,13 @@ public class BitArray implements Clusterable<BitArray>{
 
 	public BitArray(String str) {
 		bits = new ArrayList<>();
-		for (int i = 0; i < str.length(); i++) {
-			char c = str.charAt(i);
-			if (c == '0') {
-				bits.add(false);
-			} else if (c == '1') {
+		String[]parts=str.split(",");
+		for (int i = 0; i < parts.length; i++) {
+			String s=parts[i];
+			if (s.equals("true")) {
 				bits.add(true);
+			} else  {
+				bits.add(false);
 			}
 		}
 	}
@@ -36,12 +37,12 @@ public class BitArray implements Clusterable<BitArray>{
 		//  retain only those of maximal length
 		if(this.bits.size()!=other.bits.size())
 			throw  new RuntimeException();
-		int distance=0;
+		double distance=0;
 		for(int i=0;i<this.bits.size();i++){
 			if(this.bits.get(i)!=other.bits.get(i))
-				distance++;
+				distance=distance+1;
 		}
-		return distance;
+		return  distance;
 	}
 
 	public static Set<BitArray> readClusterableSet(String path) throws IOException {

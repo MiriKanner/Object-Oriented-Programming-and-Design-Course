@@ -1,48 +1,44 @@
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashSet;
 import java.util.stream.Stream;
+import java.util.stream.IntStream;
+import java.util.stream.Collectors;
 public class BitArray implements Clusterable<BitArray>{
 	private ArrayList<Boolean> bits;
 
 	public BitArray(String str) {
 		bits = new ArrayList<>();
 		String[]parts=str.split(",");
-		for (int i = 0; i < parts.length; i++) {
-			String s=parts[i];
-			if (s.equals("true")) {
+		Arrays.stream(parts).forEach(s->{
+			if(s.equals("true"))
 				bits.add(true);
-			} else  {
-				bits.add(false);
-			}
-		}
+			else bits.add(false);
+		});
 	}
 
-	public BitArray(boolean[] bits) {
-		this.bits = new ArrayList<>();
-		for (boolean bit : bits) {
-			this.bits.add(bit);
-		}
-	}
-
+public BitArray(boolean[] bits) {
+	this.bits = IntStream.range(0, bits.length)
+			.mapToObj(i -> bits[i])
+			.collect(Collectors.toCollection(ArrayList::new));
+}
 
 	@Override
 	public double distance(BitArray other) {
-		//cheak size
-		// TODO: Complete. If the file contains bitarrays of different lengths,
-		//  retain only those of maximal length
+
 		if(this.bits.size()!=other.bits.size())
 			throw  new RuntimeException();
-		double distance=0;
-		for(int i=0;i<this.bits.size();i++){
-			if(this.bits.get(i)!=other.bits.get(i))
-				distance=distance+1;
-		}
-		return  distance;
+		double []distance={0};
+		int[]i={0};
+		double[] finalDistance = distance;
+		this.bits.stream().forEach(b->{
+			if(b!=other.bits.get(i[0]))
+				finalDistance[0]= finalDistance[0]+1;
+			i[0]=i[0]+1;
+		});
+
+		return  finalDistance[0];
 	}
 
 	public static Set<BitArray> readClusterableSet(String path) throws IOException {

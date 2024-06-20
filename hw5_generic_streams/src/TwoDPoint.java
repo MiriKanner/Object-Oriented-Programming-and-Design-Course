@@ -2,6 +2,10 @@
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Set;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashSet;
+import java.util.stream.Stream;
 
 public class TwoDPoint implements Clusterable<TwoDPoint>{
 	double x;
@@ -20,7 +24,8 @@ public class TwoDPoint implements Clusterable<TwoDPoint>{
 	public double distance(TwoDPoint other) {
 		double xDiff = this.x - other.x;
 		double yDiff = this.y - other.y;
-		return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
+		double dis= Math.sqrt(xDiff * xDiff + yDiff * yDiff);
+		return  dis;
 	}
 
 	public static Set<TwoDPoint> readClusterableSet(String path) throws IOException{
@@ -28,9 +33,9 @@ public class TwoDPoint implements Clusterable<TwoDPoint>{
 			Set<TwoDPoint> setTwoDPoint = new HashSet<TwoDPoint>();
 			lines .map(l -> l.split(" "))
 					.forEach(t ->
-						setTwoDPoint.add(new TwoDPoint(t)));
+						setTwoDPoint.add(new TwoDPoint(t[0])));
 						return setTwoDPoint;
-					} catch (FileNotFoundException e) {
+					} catch (IOException e) {
 				System.out.println("An error occurred.");
 				e.printStackTrace();
 			}

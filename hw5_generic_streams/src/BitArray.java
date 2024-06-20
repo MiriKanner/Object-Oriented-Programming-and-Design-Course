@@ -2,7 +2,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Set;
-
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashSet;
+import java.util.stream.Stream;
 public class BitArray implements Clusterable<BitArray>{
 	private ArrayList<Boolean> bits;
 
@@ -29,9 +32,13 @@ public class BitArray implements Clusterable<BitArray>{
 	@Override
 	public double distance(BitArray other) {
 		//cheak size
+		// TODO: Complete. If the file contains bitarrays of different lengths,
+		//  retain only those of maximal length
+		if(this.bits.size()!=other.bits.size())
+			throw  new RuntimeException();
 		int distance=0;
-		for(int i=0;i<this.bits;i++){
-			if(bits[i]!=other.bits[i])
+		for(int i=0;i<this.bits.size();i++){
+			if(this.bits.get(i)!=other.bits.get(i))
 				distance++;
 		}
 		return distance;
@@ -39,24 +46,26 @@ public class BitArray implements Clusterable<BitArray>{
 
 	public static Set<BitArray> readClusterableSet(String path) throws IOException {
 		try (Stream<String> lines = Files.lines(Paths.get(path))){
-			Set<BitArray> setBitsArry = new HashSet<BitArray>();
-			int maxLength=-1;
+			Set<BitArray> setBitsArray = new HashSet<BitArray>();
+			int[] maxLength = { -1 };
 			lines
 					.map(l -> l.split(" "))
 					.forEach(b -> {
-						BitArray bitArray = new BitArray(b);
-						if (bitArray.bits.size() > maxLength) {
-							maxLength = bitArray.bits.size();
+						BitArray bitArray = new BitArray(b[0]);
+						if (bitArray.bits.size() > maxLength[0]) {
+							maxLength[0] = bitArray.bits.size();
 							setBitsArray.clear();
 						}
-						if (bitArray.bits.size() == maxLength) {
+						if (bitArray.bits.size() == maxLength[0]) {
 							setBitsArray.add(bitArray);
-						})
-			return setBitsArry
-		} catch (FileNotFoundException e) {
+						}
+					});
+			return setBitsArray;
+		} catch (IOException e) {
 			System.out.println("An error occurred.");
 			e.printStackTrace();
 		}
+		return null;
 	}
 
 	@Override

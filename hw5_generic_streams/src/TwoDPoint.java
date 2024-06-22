@@ -6,6 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.stream.Stream;
+import java.util.stream.Collectors;
+
 
 public class TwoDPoint implements Clusterable<TwoDPoint>{
 	double x;
@@ -28,19 +30,17 @@ public class TwoDPoint implements Clusterable<TwoDPoint>{
 		return  dis;
 	}
 
-	public static Set<TwoDPoint> readClusterableSet(String path) throws IOException{
-		try (Stream<String> lines = Files.lines(Paths.get(path))){
-			Set<TwoDPoint> setTwoDPoint = new HashSet<TwoDPoint>();
-			lines .map(l -> l.split(" "))
-					.forEach(t ->
-						setTwoDPoint.add(new TwoDPoint(t[0])));
-						return setTwoDPoint;
-					} catch (IOException e) {
-				System.out.println("An error occurred.");
-				e.printStackTrace();
-			}
-		return null;
+public static Set<TwoDPoint> readClusterableSet(String path) {
+	try {
+		return Files.lines(Paths.get(path))
+				.map(line -> new TwoDPoint(line.split(" ")[0]))
+				.collect(Collectors.toCollection(HashSet::new));
+	} catch (IOException e) {
+		System.out.println("An error occurred.");
+		e.printStackTrace();
+		return new HashSet<>();
 	}
+}
 
 	@Override
 	public String toString() {

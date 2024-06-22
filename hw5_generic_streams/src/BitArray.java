@@ -10,15 +10,15 @@ public class BitArray implements Clusterable<BitArray>{
 
 	public BitArray(String str) {
 		bits = new ArrayList<>();
-		String[]parts=str.split(",");
-		Arrays.stream(parts).forEach(s->{
-			if(s.equals("true"))
-				bits.add(true);
-			else bits.add(false);
-		});
+		String[] parts = str.split(",");
+		bits = Arrays.stream(parts)
+				.map(s -> s.equals("true"))
+				.collect(Collectors.toCollection(ArrayList::new));
 	}
 
-public BitArray(boolean[] bits) {
+
+
+	public BitArray(boolean[] bits) {
 	this.bits = IntStream.range(0, bits.length)
 			.mapToObj(i -> bits[i])
 			.collect(Collectors.toCollection(ArrayList::new));
@@ -26,43 +26,27 @@ public BitArray(boolean[] bits) {
 
 	@Override
 	public double distance(BitArray other) {
+		if (this.bits.size() != other.bits.size())
+			throw new RuntimeException();
 
-		if(this.bits.size()!=other.bits.size())
-			throw  new RuntimeException();
-		double []distance={0};
-		int[]i={0};
-		double[] finalDistance = distance;
-		this.bits.stream().forEach(b->{
-			if(b!=other.bits.get(i[0]))
-				finalDistance[0]= finalDistance[0]+1;
-			i[0]=i[0]+1;
-		});
-
-		return  finalDistance[0];
+		return IntStream.range(0, this.bits.size())
+				.mapToDouble(i -> this.bits.get(i).equals(other.bits.get(i)) ? 0 : 1)
+				.sum();
 	}
 
 	public static Set<BitArray> readClusterableSet(String path) throws IOException {
-		try (Stream<String> lines = Files.lines(Paths.get(path))){
-			Set<BitArray> setBitsArray = new HashSet<BitArray>();
-			int[] maxLength = { -1 };
-			lines
-					.map(l -> l.split(" "))
-					.forEach(b -> {
-						BitArray bitArray = new BitArray(b[0]);
-						if (bitArray.bits.size() > maxLength[0]) {
-							maxLength[0] = bitArray.bits.size();
-							setBitsArray.clear();
-						}
-						if (bitArray.bits.size() == maxLength[0]) {
-							setBitsArray.add(bitArray);
-						}
-					});
-			return setBitsArray;
-		} catch (IOException e) {
-			System.out.println("An error occurred.");
-			e.printStackTrace();
-		}
-		return null;
+		Set<BitArray> setBitsArray = Files.lines(Paths.get(path))
+				.map(line -> line.split(" "))
+				.map(parts -> new BitArray(parts[0]))
+				.collect(Collectors.groupingBy(
+						bitArray -> bitArray.bits.size(),
+						Collectors.toSet()))
+				.entrySet().stream()
+				.max(Comparator.comparingInt(Map.Entry::getKey))
+				.map(Map.Entry::getValue)
+				.orElseGet(HashSet::new);
+
+		return setBitsArray;
 	}
 
 	@Override

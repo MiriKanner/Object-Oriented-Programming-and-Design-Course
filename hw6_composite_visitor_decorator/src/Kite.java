@@ -6,7 +6,10 @@ public class Kite extends Element {
         super(width, height, path);
         this.color = color;
     }
-
+    @Override
+    public void accept(ElementVisitor v) {
+        v.visit(this);
+    }
      public Color getColor() {
         return color;
     }

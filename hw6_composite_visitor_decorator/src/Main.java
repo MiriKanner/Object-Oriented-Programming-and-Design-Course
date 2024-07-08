@@ -85,8 +85,6 @@ public class Main {
                 System.out.println(paper.write());
             }
         }
-
-
     }
    public static Paper paperElementMenu(Scanner scanner, Paper paper){
         String cho;

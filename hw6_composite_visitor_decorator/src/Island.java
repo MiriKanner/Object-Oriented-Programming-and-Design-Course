@@ -1,15 +1,18 @@
-// TODO: Implement Composite (change this file).
- 
-public class Island extends Element {
+public class Island extends CompositeElements {
     public Island(String name, double diameter, String path) {
-        //TODO: fix
-        super(0,0,null);
+        super(diameter,diameter,path,name);
     }
+    @Override
+    public void accept(ElementVisitor v) {
+            v.visit(this);
+            for (Element element: elements)
+            {      element.accept(v);   }
+    }
+
 
     @Override
     public String getName() {
-        //TODO: fix
-        return null;
+        return super.getName();
     }
 
     @Override

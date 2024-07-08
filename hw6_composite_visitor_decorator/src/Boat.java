@@ -15,8 +15,14 @@ public class Boat extends Element{
         return "boat";
     }
 
+
     @Override
     public Habitat getHabitat() {
         return Habitat.AQUATIC;
+    }
+
+    @Override
+    public void accept(ElementVisitor v) {
+        v.visit(this);
     }
 }

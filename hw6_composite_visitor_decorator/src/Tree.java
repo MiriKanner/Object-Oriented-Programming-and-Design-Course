@@ -11,7 +11,10 @@ public class Tree extends Element {
         super(width, height, path);
         this.leavesAmount = leavesAmount;
     }
-
+    @Override
+    public void accept(ElementVisitor v) {
+        v.visit(this);
+    }
     @Override
      public String getName() {
         return "tree";

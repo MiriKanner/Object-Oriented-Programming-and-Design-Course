@@ -1,37 +1,42 @@
-public class PrintNameVisitor implements  ElementVisitor{
+import java.lang.Math.*;
+public class AreaVisitor extends ElementVisitor{
+
+    private int sum=0;
 
     @Override
     public void visit(Lake lake) {
-        System.out.println(lake.getName());
+        sum+=Math.pow(Math.PI,2)* lake.getWidth()/2;
     }
 
     @Override
     public void visit(Kite kite) {
-        System.out.println(kite.getName());
+
     }
 
     @Override
     public void visit(Boat boat) {
-        System.out.println(boat.getName());
+
     }
 
     @Override
     public void visit(Flag flag) {
-        System.out.println(flag.getName());
+
     }
 
     @Override
     public void visit(Tree tree) {
-        System.out.println(tree.getName());
+
     }
 
     @Override
     public void visit(Kid kid) {
-        System.out.println(kid.getName());
+
     }
 
     @Override
     public void visit(Island island) {
-        System.out.println(island.getName());
+
     }
+
+
 }

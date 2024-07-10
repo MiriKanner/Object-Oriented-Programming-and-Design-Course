@@ -4,8 +4,11 @@ public class Lake extends CompositeElements {
         super(diameter,diameter,path,name);
     }
     public void accept(ElementVisitor v) {
+
+        for (Element element: elements) {
+            element.accept(v);
+        }
         v.visit(this);
-        for (Element element: elements) { element.accept(v);   }
     }
     @Override
     public String getName() {

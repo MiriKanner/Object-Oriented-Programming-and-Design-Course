@@ -10,7 +10,6 @@ public class Island extends CompositeElements {
 
     }
 
-
     @Override
     public String getName() {
         return super.getName();

@@ -1,4 +1,6 @@
-public class PrintNameVisitor implements  ElementVisitor{
+public class
+
+PrintNameVisitor implements  ElementVisitor{
 
     @Override
     public void visit(Lake lake) {

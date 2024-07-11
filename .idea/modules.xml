@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Object-Oriented-Programming-and-Design-Course.iml" filepath="$PROJECT_DIR$/Object-Oriented-Programming-and-Design-Course.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hw5_generic_streams/hw5_generic_streams.iml" filepath="$PROJECT_DIR$/hw5_generic_streams/hw5_generic_streams.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hw6_composite_visitor_decorator/hw6_composite_visitor_decorator.iml" filepath="$PROJECT_DIR$/hw6_composite_visitor_decorator/hw6_composite_visitor_decorator.iml" />
+    </modules>
+  </component>
+</project>

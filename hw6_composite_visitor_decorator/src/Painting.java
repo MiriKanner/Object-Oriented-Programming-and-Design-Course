@@ -17,8 +17,14 @@ public class Painting {
             elementList.add(element);
         }
         else {
-            Element containingElement = pathToElementMap.get(element.getPath());
-			//TODO: add element as a child of containingElement
+            CompositeElements containingElement = (CompositeElements) pathToElementMap.get(element.getPath());
+            if(element.getHabitat() != containingElement.getHabitat())
+                containingElement.add(element);
+            else {
+                System.out.println(containingElement.getName()+" cannot contain " + element.getName());
+            }
+
+
         }
     }
 

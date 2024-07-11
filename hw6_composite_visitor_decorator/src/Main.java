@@ -1,10 +1,12 @@
- 
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toMap;
 
@@ -45,8 +47,9 @@ public class Main {
         String myString;
         while (!(myString = scanner.nextLine()).equals("q")) {
             switch (myString) {
+
                 case "c":
-                    //TODO: Add counting behavior
+
                     break;
                 case "sh":
                     //TODO: Add short representation behavior
@@ -56,6 +59,7 @@ public class Main {
                     break;
                 case "lp":
                     //TODO: Add long representation behavior
+                    root.longPrintVisitor();
                     break;
 
 

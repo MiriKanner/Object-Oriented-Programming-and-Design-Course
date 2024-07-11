@@ -11,6 +11,15 @@ public class Painting {
         elementList=new ArrayList<>();
         pathToElementMap = new HashMap<>();
     }
+
+    public void longPrint(){
+        for(Element element: elementList){
+            LongPrintVisitor printer = new LongPrintVisitor();
+            element.accept(printer);
+        }
+    }
+
+
     public void addElement(Element element){
         pathToElementMap.put(element.getFullName(), element);
         if (element.getPath().isEmpty()){

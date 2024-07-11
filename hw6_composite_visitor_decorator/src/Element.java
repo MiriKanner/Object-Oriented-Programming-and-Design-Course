@@ -3,7 +3,7 @@ public abstract class Element{
     protected double width;
     protected double length;
     private String path;
-    protected String name;
+    private String name;
 
     public double getWidth() {
         return width;

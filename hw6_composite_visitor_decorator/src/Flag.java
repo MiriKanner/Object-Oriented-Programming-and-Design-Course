@@ -9,6 +9,7 @@ public class Flag extends Element {
         super(width, length, path);
         this.color = color;
         this.carrierHeight = carrierHeight;
+
     }
 
  

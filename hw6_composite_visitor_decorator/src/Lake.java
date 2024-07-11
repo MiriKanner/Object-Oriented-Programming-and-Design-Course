@@ -12,7 +12,7 @@ public class Lake extends CompositeElements {
     }
     @Override
     public String getName() {
-        return "Lake";
+        return super.getName();
     }
 
     @Override

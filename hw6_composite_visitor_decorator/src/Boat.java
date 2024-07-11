@@ -5,6 +5,7 @@ public class Boat extends Element{
     public Boat(double width, double length, Material m, String path) {
         super(width, length, path);
         this.material=m;
+
     }
 
     public Material getMaterial() {

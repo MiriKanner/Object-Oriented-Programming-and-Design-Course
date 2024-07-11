@@ -19,7 +19,32 @@ public class Painting {
         }
     }
 
+    public void Area(){
+        for(Element element: elementList){
+            AreaVisitor area = new AreaVisitor();
+            element.accept(area);
+        }
+    }
 
+    public void countVisitor(){
+        int sum=0;
+        for(Element element: elementList){
+            CountVisitor count = new CountVisitor();
+            element.accept(count);
+            sum+=CountVisitor.getCount();
+        }
+        System.out.println(sum);
+    }
+
+
+
+public  void  shortPrint(){
+    for(Element element: elementList){
+        PrintNameVisitor print = new PrintNameVisitor();
+        element.accept(print);
+    }
+
+}
     public void addElement(Element element){
         pathToElementMap.put(element.getFullName(), element);
         if (element.getPath().isEmpty()){

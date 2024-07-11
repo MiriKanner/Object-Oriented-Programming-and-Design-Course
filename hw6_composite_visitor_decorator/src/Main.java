@@ -48,16 +48,15 @@ public class Main {
             switch (myString) {
 
                 case "c":
-
+                     root.countVisitor();
                     break;
                 case "sh":
-                    //TODO: Add short representation behavior
+                    root.shortPrint();
                     break;
                 case "ta":
-                    //TODO: Add area calculation behavior
+                    root.Area();
                     break;
                 case "lp":
-                    //TODO: Add long representation behavior
 
                     root.longPrint();
                     break;

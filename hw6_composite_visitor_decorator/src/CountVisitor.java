@@ -1,5 +1,5 @@
 public class CountVisitor implements ElementVisitor{
-    private int count = 0;
+    private static int count = 0;
 
     @Override
     public void visit(Lake lake) {
@@ -41,5 +41,7 @@ public class CountVisitor implements ElementVisitor{
             element.accept(this);
         }
     }
-
+    public static int getCount() {
+        return count;
+    }
 }

@@ -1,18 +1,22 @@
+
 public class Island extends CompositeElements {
+
     public Island(String name, double diameter, String path) {
-        super(diameter,diameter,path,name);
+        super(name,diameter,path);
     }
+
     @Override
     public void accept(ElementVisitor v) {
-
-            for (Element element: elements)
-            {      element.accept(v);   }
         v.visit(this);
+        super.accept(v);
     }
 
     @Override
-    public String getName() {
-        return super.getName();
+    public void addChild(Element child) {
+        if(child instanceof Kite || child instanceof Flag || child instanceof Tree || child instanceof Kid || child instanceof Lake)
+            this.elements.add(child);
+        else
+            System.out.println(this.getName() + " cannot contain " + child.getName());
     }
 
     @Override

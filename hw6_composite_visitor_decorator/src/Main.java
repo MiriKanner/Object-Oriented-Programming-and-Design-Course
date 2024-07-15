@@ -1,21 +1,18 @@
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import static java.util.stream.Collectors.toMap;
 
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Choose from the following options:\n" +
-                "a: Art\n" +
-                "p: Papers");
+        System.out.println("""
+                Choose from the following options:
+                a: Art
+                p: Papers""");
         String choice = scanner.nextLine();
         if (choice.equals("a")){
             artMenu(scanner);
@@ -26,44 +23,43 @@ public class Main {
     }
     public static Painting readElementDetails(String path) throws IOException {
         Painting painting = new Painting();
-        Map<String, Element> files = new HashMap();
 
         Files.lines(Paths.get(path))
-            .map(str -> ElementDetailsFactory.getPaintingElement(str))
-            .forEach(e-> painting.addElement(e));
+                .map(str -> ElementDetailsFactory.getPaintingElement(str))
+                .forEach(painting::addElement);
         return painting;
     }
     public static void artMenu(Scanner scanner) throws IOException {
         System.out.println("Enter the path of the painting description");
         String path=scanner.nextLine();
         Painting root= readElementDetails(path);
-        System.out.println("Choose from the following options:\n" +
-                "q: quit\n" +
-                "c: count elements\n" +
-                "lp: long print\n" +
-                "sh: short print\n" +
-                "ta: total area");
+        System.out.println("""
+                Choose from the following options:
+                q: quit
+                c: count elements
+                lp: long print
+                sh: short print
+                ta: total area""");
         String myString;
         while (!(myString = scanner.nextLine()).equals("q")) {
             switch (myString) {
-
                 case "c":
-                     root.countVisitor();
+                    CountVisitor elementsCountVisitor=new CountVisitor();
+                    root.elementList.forEach(e->e.accept(elementsCountVisitor));
+                    System.out.println(elementsCountVisitor.getCount());
                     break;
                 case "sh":
-                    root.shortPrint();
+                    root.elementList.forEach(e->e.accept(new PrintNameVisitor()));
                     break;
                 case "ta":
-                    root.Area();
+                    AreaVisitor totalAreaVisitor=new AreaVisitor();
+                    root.elementList.forEach(e->e.accept(totalAreaVisitor));
+                    System.out.println(totalAreaVisitor.getArea());
                     break;
                 case "lp":
-
-                    root.longPrint();
+                    root.elementList.forEach(e->e.accept(new LongPrintVisitor()));
                     break;
-
-
             }
-
         }
     }
 
@@ -71,15 +67,15 @@ public class Main {
         System.out.println("Choose from the following paper:\n" +
                 "ac: academic paper\n" +
                 "cn: contract\n" +
-                "pr: journal article\n" +
+                "jr: journal article\n" +
                 "bk: book");
-        Paper paper = null;
-        String choice=scanner.nextLine();
-        paper=PaperFactory.createPaper(choice);
+        Paper paper = PaperFactory.createPaper(scanner.nextLine());
+        String choice="";
         while (!choice.equals("s")) {
-            System.out.println("Choose from the following options:\n" +
-                    "a: add element\n" +
-                    "s: submit");
+            System.out.println("""
+                    Choose from the following options:
+                    a: add element
+                    s: submit""");
             choice = scanner.nextLine();
             if (choice.equals("a")) {
                 paper = paperElementMenu(scanner, paper);
@@ -88,15 +84,15 @@ public class Main {
                 System.out.println(paper.write());
             }
         }
+
     }
-   public static Paper paperElementMenu(Scanner scanner, Paper paper){
-        String cho;
-        System.out.println("Choose from the following elements:\n" +
-                "tb: table\n" +
-                "eq: equation\n" +
-                "d: diagram\n" +
-                "nt: note");
-        cho = scanner.nextLine();
-        return DecoratorFactory.createDecoratorPaper(cho,paper);
+    public static Paper paperElementMenu(Scanner scanner, Paper paper){
+        System.out.println("""
+                Choose from the following elements:
+                tb: table
+                eq: equation
+                d: diagram
+                nt: note""");
+        return DecoratorFactory.createDecoratorPaper(scanner.nextLine(), paper);
     }
 }

@@ -1,45 +1,42 @@
-import java.lang.Math.*;
+import static java.lang.Math.*;
 public class AreaVisitor implements ElementVisitor{
-
-    private int sum=0;
-
-    @Override
-    public void visit(Lake lake) {
-        sum+=Math.pow(lake.getWidth()/2,2)*Math.PI ;
-    }
-
-    @Override
-    public void visit(Kite kite) {
-        sum+=(kite.getWidth()* kite.getLength())/2;
-
-    }
-
+    private double totalArea=0;
     @Override
     public void visit(Boat boat) {
-     sum+=(boat.getWidth()*boat.getLength()-Math.pow(boat.getWidth()/2,2)*Math.PI);
+        totalArea+= ((boat.getLength() - boat.getWidth()/2) * boat.getWidth()) + ((boat.getWidth()/2)*(boat.getWidth()/2)* Math.PI)/2;
     }
 
     @Override
     public void visit(Flag flag) {
-        sum+=(flag.getWidth()*flag.getLength());
-
-    }
-
-    @Override
-    public void visit(Tree tree) {
-     sum+=tree.getWidth()/2*tree.getLength();
-    }
-
-    @Override
-    public void visit(Kid kid) {
-        sum += kid.getWidth() * (kid.getLength() - kid.getWidth() + Math.pow(kid.getWidth() / 2, 2) * Math.PI);
-
+        totalArea+=flag.getLength() * flag.getWidth();
     }
 
     @Override
     public void visit(Island island) {
-        sum+=(Math.pow(island.getWidth()/2,2)*Math.PI);
+        totalArea += (island.getWidth() / 2) * (island.getWidth() / 2) * Math.PI;
     }
 
+    @Override
+    public void visit(Kid kid) {
+        totalArea += ((kid.getLength() - kid.getWidth()) * kid.getWidth()) + (kid.getWidth() / 2) * (kid.getWidth() / 2) * Math.PI;
+    }
 
+    @Override
+    public void visit(Kite kite) {
+        totalArea+= kite.getLength() * kite.getWidth()/2;
+    }
+
+    @Override
+    public void visit(Lake lake) {
+        totalArea += (lake.getWidth() / 2) * (lake.getWidth() / 2) * Math.PI;
+    }
+
+    @Override
+    public void visit(Tree tree) {
+        totalArea+= (tree.getLength() * tree.getWidth())/2;
+    }
+
+    public int getArea() {
+        return (int)round(totalArea);
+    }
 }

@@ -1,47 +1,41 @@
 public class CountVisitor implements ElementVisitor{
-    private static int count = 0;
-
-    @Override
-    public void visit(Lake lake) {
-        count++;
-        for (Element element : lake.elements) {
-            element.accept(this);
-        }
-    }
-
-    @Override
-    public void visit(Kite kite) {
-        count++;
-    }
-
+    private int count=0;
     @Override
     public void visit(Boat boat) {
-        count++;
+        count+=1;
     }
 
     @Override
     public void visit(Flag flag) {
-        count++;
-    }
-
-    @Override
-    public void visit(Tree tree) {
-        count++;
-    }
-
-    @Override
-    public void visit(Kid kid) {
-        count++;
+        count+=1;
     }
 
     @Override
     public void visit(Island island) {
-        count++;
-        for (Element element : island.elements) {
-            element.accept(this);
-        }
+        count+=1;
     }
-    public static int getCount() {
+
+    @Override
+    public void visit(Kid kid) {
+        count+=1;
+    }
+
+    @Override
+    public void visit(Kite kite) {
+        count+=1;
+    }
+
+    @Override
+    public void visit(Lake lake) {
+        count+=1;
+    }
+
+    @Override
+    public void visit(Tree tree) {
+        count+=1;
+    }
+
+    public int getCount() {
         return count;
     }
 }

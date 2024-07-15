@@ -1,37 +1,24 @@
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class CompositeElements extends Element {
-    protected Set<Element> elements=new HashSet<>();
-    protected  String name;
-    public CompositeElements(double width, double length, String path,String name) {
-        super(width, length, path);
+    String name;
+    List<Element> elements;
+    public CompositeElements(String name, double diameter, String path) {
+        super(diameter,diameter,path);
         this.name=name;
+        this.elements=new ArrayList<>();
     }
-    public void add(Element component) {
-        elements.add(component);
+
+    public void addChild(Element child) {
+        this.elements.add(child);
     }
     @Override
     public String getName() {
-      //  return elements.iterator().next().getName();
         return name;
     }
-    public void add(Element... components) {
-        elements.addAll(Arrays.asList(components));
+
+    public void accept(ElementVisitor v) {
+        this.elements.forEach(child -> child.accept(v));
     }
-
-    public void remove(Element child) {
-        elements.remove(child);
-    }
-
-    public void remove(Element... components) {
-        elements.removeAll(Arrays.asList(components));
-    }
-
-    public void clear() {
-        elements.clear();
-    }
-
-
 }

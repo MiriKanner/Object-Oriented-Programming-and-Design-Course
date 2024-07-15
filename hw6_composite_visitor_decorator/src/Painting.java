@@ -20,20 +20,21 @@ public class Painting {
     }
 
     public void Area(){
+        AreaVisitor area = new AreaVisitor();
         for(Element element: elementList){
-            AreaVisitor area = new AreaVisitor();
+
             element.accept(area);
         }
+        System.out.println(area.getArea());
     }
 
     public void countVisitor(){
-        int sum=0;
-        for(Element element: elementList){
-            CountVisitor count = new CountVisitor();
-            element.accept(count);
-            sum+=CountVisitor.getCount();
+        int sum = 0;
+        CountVisitor counter = new CountVisitor();
+        for (Element element: elementList){
+            element.accept(counter);
         }
-        System.out.println(sum);
+        System.out.println(counter.getCount());
     }
 
 
@@ -53,7 +54,7 @@ public  void  shortPrint(){
         else {
             CompositeElements containingElement = (CompositeElements) pathToElementMap.get(element.getPath());
             if(element.getHabitat() != containingElement.getHabitat())
-                containingElement.add(element);
+                containingElement.addChild(element);
             else {
                 System.out.println(containingElement.getName()+" cannot contain " + element.getName());
             }

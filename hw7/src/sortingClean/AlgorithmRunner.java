@@ -1,17 +1,32 @@
+
 package sortingClean;
+
+import jakarta.inject.Inject;
+
 import java.util.Random;
 
-// TODO: Add dependency injection and annotations to this file
 public class AlgorithmRunner {
-    SortingAlgorithm<Integer> quadraticAlgorithm;
-    SortingAlgorithm<Integer> nlognAlgorithm;
-    SortingAlgorithm<Integer> randomAlgorithm1;
-    SortingAlgorithm<Integer> randomAlgorithm2;
 
-    int numberOfElements;
-    public void runAlgorithms(){
+    @Inject
+    @squareAlgoritm
+    private SortingAlgorithm<Integer> quadraticAlgorithm;
+    @Inject
+    @nlognAlgoritm
+    private SortingAlgorithm<Integer> nlognAlgorithm;
+    @Inject
+    @randAlgoritm
+    private SortingAlgorithm<Integer> randomAlgorithm1;
+    @Inject
+    @randAlgoritm
+    private  SortingAlgorithm<Integer> randomAlgorithm2;
+    @Inject
+    @rundNumber
+    private int numberOfElements;
+
+    @sumAll
+    public void runAlgorithms() {
         Random rand = new Random();
-        Integer[] ints = rand.ints(1,Integer.MAX_VALUE)
+        Integer[] ints = rand.ints(1, Integer.MAX_VALUE)
                 .distinct()
                 .limit(numberOfElements)
                 .boxed()
@@ -24,20 +39,5 @@ public class AlgorithmRunner {
         randomAlgorithm1.sort(intsClone);
         intsClone = ints.clone();
         randomAlgorithm2.sort(intsClone);
-    }
-
-    private static SortingAlgorithm<Integer> makeRandomSortingAlgorithm(){
-        Random random = new Random(System.currentTimeMillis());
-        SortingAlgorithm<Integer> sortAlg= null;
-        switch (random.nextInt(4)){
-            case 0: sortAlg = new QuickSort();
-                break;
-            case 1: sortAlg = new MergeSort();
-                break;
-            case 2: sortAlg = new BubbleSort();
-                break;
-            case 3: sortAlg = new InsertionSort();
-        }
-        return sortAlg;
     }
 }

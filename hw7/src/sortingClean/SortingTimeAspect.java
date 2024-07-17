@@ -1,9 +1,13 @@
-/// Aspect Oriented Programming for measuring execution time and number of invocations of sorting algorithms
+package sortingClean;
 
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.ProceedingJoinPoint;
+//import sortingClean.BubbleSort;
+//import sortingClean.InsertionSort;
+//import sortingClean.MergeSort;
+//import sortingClean.QuickSort;
 
 @Aspect
 public class SortingTimeAspect {
@@ -22,39 +26,55 @@ public class SortingTimeAspect {
     private int randomAlgorithm1Invocations;
     private long randomAlgorithm2Time;
     private int randomAlgorithm2Invocations;
+    private  long startTime;
 
     @Before("execution(void SortingAlgorithm.sort(..))")
-    public void beforeSorting(ProceedingJoinPoint joinPoint) {
-        long startTime = System.currentTimeMillis();
+    public void beforeMeasureSortingTime() {
+        startTime = System.currentTimeMillis();
     }
+
     @After("execution(void SortingAlgorithm.sort(..))")
-    public void afterSorting(ProceedingJoinPoint joinPoint) {
+    public void afterMeasureSortingTime(JoinPoint joinPoint) {
         long endTime = System.currentTimeMillis();
         long duration = endTime - startTime;
-        System.out.println("Function sort in " + joinPoint.getTarget().getClass().getSimpleName() + " took " + duration + " ms");
         totalInvocations++;
-        if (joinPoint.getTarget() instanceof QuickSort) {
-            quickSortInvocations++;
-            quickSortTime += duration;
-        } else if (joinPoint.getTarget() instanceof BubbleSort) {
-            bubbleSortInvocations++;
-            bubbleSortTime += duration;
-        } else if (joinPoint.getTarget() instanceof InsertionSort) {
-            insertionSortInvocations++;
-            insertionSortTime += duration;
-        } else if (joinPoint.getTarget() instanceof MergeSort) {
-            mergeSortInvocations++;
-            mergeSortTime += duration;
-        } else if (joinPoint.getTarget().getClass().getSimpleName().equals("randomAlgorithm1")) {
-            randomAlgorithm1Invocations++;
-            randomAlgorithm1Time += duration;
-        } else if (joinPoint.getTarget().getClass().getSimpleName().equals("randomAlgorithm2")) {
-            randomAlgorithm2Invocations++;
-            randomAlgorithm2Time += duration;
+        switch (joinPoint.getTarget().getClass().getSimpleName()) {
+            case "QuickSort":
+                quickSortInvocations++;
+                quickSortTime += duration;
+                break;
+            case "BubbleSort":
+                bubbleSortInvocations++;
+                bubbleSortTime += duration;
+                break;
+            case "InsertionSort":
+                insertionSortInvocations++;
+                insertionSortTime += duration;
+                break;
+            case "MergeSort":
+                mergeSortInvocations++;
+                mergeSortTime += duration;
+                break;
+            case "randomAlgorithm1":
+                randomAlgorithm1Invocations++;
+                randomAlgorithm1Time += duration;
+                break;
+            case "randomAlgorithm2":
+                randomAlgorithm2Invocations++;
+                randomAlgorithm2Time += duration;
+                break;
+            default:
+                // Handle default case
+                break;
         }
     }
+    @Before("execution(void AlgorithmRunner.runAlgorithms())")
+    public void beforeMeasureTotalTime() {
+        totalStartTime = System.currentTimeMillis();
+    }
+
     @After("execution(void AlgorithmRunner.runAlgorithms())")
-    public void afterSorting(ProceedingJoinPoint joinPoint) {
+    public void afterMeasureTotalTime() {
         totalEndTime = System.currentTimeMillis();
         long totalDuration = totalEndTime - totalStartTime;
         System.out.println("Total time of running all sort functions was " + totalDuration + " ms");
